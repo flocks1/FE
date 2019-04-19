@@ -11,7 +11,7 @@ export const getData = () => dispatch => {
   
   dispatch({ type: FETCH_DATA_START });
   axios
-    .get('https://build-week.herokuapp.com/tweets')
+    .get('https://build-week.herokuapp.com/trends')
     .then(res => {
       dispatch({ type: FETCH_DATA_SUCCESS, payload: res.data });
       console.log('trends',res.data)

@@ -3,6 +3,8 @@ import styled, { css } from 'styled-components';
 import { sentimentSend } from '../actions';
 import { connect } from 'react-redux';
 import {OutputTweet} from './OutputTweet';
+import {getData} from '../actions';
+
 
 var TwitterWidgetsLoader = require('twitter-widgets');
 
@@ -59,8 +61,9 @@ export class CustomSearch extends Component {
         super(props);
         this.state = {
             isSearching: true,
-            input: '#Custom Search',
+            input: '',
             searchToggle: true,
+            tweetdata:''
 
 
         }
@@ -68,8 +71,15 @@ export class CustomSearch extends Component {
 
     }
 
+    sentimentSend = (query)=>{
+         
+        this.setState({tweetdata:this.props.sentimentSend(query)})
+    }
+
+    
     toggleSearch = () => {
         this.setState({ searchToggle: !this.state.searchToggle })
+        console.log(this.props,'MY PROPS')
     }
     handleChanges = e => {
         this.setState({
@@ -88,7 +98,7 @@ export class CustomSearch extends Component {
                             placeholder='Enter Search' 
                             onChange={this.handleChanges}></input>
 
-                        <button className='demo-btn'>
+                        <button className='demo-btn' onClick={()=>{this.sentimentSend(this.state.input)}}>
                             <span>Submit Search</span><i class="fas fa-arrow-circle-right"></i>
 
                         </button>
@@ -138,4 +148,4 @@ const mapStateToProps = state => {
 //Make sure you do not have two copies of react or react-dom between your friends folder directory and outside of your friends folder directory
 //nmp ls react  or npm ls react-dom in each to identify
 //removing duplicate copies from /friends did the tricks
-export default connect(mapStateToProps, { sentimentSend })(CustomSearch);
+export default connect(mapStateToProps, {sentimentSend,getData})(CustomSearch);

@@ -4,6 +4,7 @@ import {getData} from '../actions/index';
 import { connect } from 'react-redux';
 import {StyledNavigation} from './Nav';
 import {CustomSearch} from './CustomSearch';
+import {sentimentSend} from '../actions';
 
 const sizes = {
     desktop: 992,
@@ -325,7 +326,9 @@ class ItemList extends Component {
         super(props);
         this.state={
             selectedTrend:'',
-            trendSelected:false
+            trendSelected:false,
+            data:[]
+        
         }
     }
 
@@ -335,7 +338,11 @@ class ItemList extends Component {
     }
     componentDidMount(){
         this.props.getData()
+        console.log('Item List Mount')
+        this.setState({data:this.props.responseItems})
     }
+
+    
 
     render(){
         return( 
@@ -375,7 +382,7 @@ class ItemList extends Component {
                         
                         
                         </div>
-                        <CustomSearch selectedTrend={this.state.selectedTrend} trendSelected={this.state.trendSelected}/>
+                        <CustomSearch sentimentSend={this.props.sentimentSend} selectedTrend={this.state.selectedTrend} trendSelected={this.state.trendSelected}/>
                     </div>
                     
                 </StyledDataView>
@@ -392,4 +399,4 @@ const mapStateToProps = state =>({
     fetchingData:state.getData.fetchingData
 });
 
-export default connect(mapStateToProps,{getData})(ItemList);
+export default connect(mapStateToProps,{getData,sentimentSend})(ItemList);
