@@ -496,7 +496,7 @@ class Registration extends Component  {
                         
                     </div>
                     <div onClick={(e) => {e.stopPropagation();this.loginAnimate()}} className={`inputdiv${this.state.clicked ?' transform-inputdiv':''}`}>
-                        <form  className='pw-form' onSubmit={ e=>{e.preventDefault();this.submitPw();setTimeout((()=>this.login(e)),2000)}}>
+                        <form  className='pw-form' onSubmit={ e=>{e.preventDefault();this.submitPw();setTimeout((()=>this.register(e)),2000)}}>
                         
                             <input type='password' name='password' value={this.state.credentials.password} onChange={this.handleChanges}
                             className='credential-input'>
