@@ -17,7 +17,7 @@ const StyledTable = styled.div`
     flex-direction:column;
     width:60%;
     margin:1%;
-    border-bottom:5px solid #0f8da8;
+    border-top: 5px solid #0f8da8;
     .col.type{
         background:black;
         color:white;
