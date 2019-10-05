@@ -140,7 +140,7 @@ class Login extends Component  {
                     <div className='login-next-steps-cont'>
                             
                             <Link to='/register'><button className='forgot'>Create Account</button></Link>
-                            <button className='next' onClick={(e) => {e.stopPropagation();this.submitPw();setTimeout((()=>this.login(e)),2000)}}>Next</button>
+                            <button data-testid = 'test-submit' className='next' onClick={(e) => {e.stopPropagation();this.submitPw();setTimeout((()=>this.login(e)),2000)}}>Next</button>
                     </div>
                     
 
