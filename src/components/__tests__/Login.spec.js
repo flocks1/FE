@@ -1,5 +1,5 @@
 import React from 'react';
-import{render, fireEvent, waitForElement} from '@testing-library/react';
+import{cleanup,render, fireEvent, waitForElement} from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
@@ -9,6 +9,8 @@ import axiosMock from "axios";
 
 import loginR from '../../reducers/loginreducer';
 import Login from '../Login';
+
+
 
 function routerWrapper(){
 
@@ -27,63 +29,75 @@ function renderWithRedux(
     }
 }
 
+
 describe('Login Unit Testing', () =>{
-   
+    
     it('loads without failing', () =>{
         renderWithRedux(<Login/>)
     })
+
 })
 
 describe('Tests input displays correct UI class when clicked--> ',  () =>{
-   
     
     it('Username input displays proper class once clicked', async ()=>{
         const { getByText, getByTestId} = renderWithRedux(<Login/>);
     
-        fireEvent.click(getByTestId('username'));
+        fireEvent.click(getByTestId('user-name'));
     
 
         const highlightedUsernameInput = await getByTestId('username-ui').className;
         
         expect(highlightedUsernameInput).toBe('inputdiv transform-inputdiv');
 
-        fireEvent.click(getByTestId('username'));
+        fireEvent.click(getByTestId('user-name'));
         
     });
-   
+
 
 })
 
-describe("Checks Enter passord prompt upon submitting only a username", () =>{
-    it.skip('Enters a username and clicks submit', async () =>{
+// describe("Checks Enter passord prompt upon submitting only a username", () =>{
+//     it.skip('Enters a username and clicks submit', async () =>{
         
-        const { getByText, getByTestId} = renderWithRedux(<Login/>);
-        fireEvent.change(getByTestId('username'),({target:'dbtestusername'}))
-        fireEvent.click(getByTestId('test-submit'))
+//         const { getByText, getByTestId} = renderWithRedux(<Login/>);
+//         fireEvent.change(getByTestId('user-name'),({target:'dbtestusername'}))
+//         fireEvent.click(getByTestId('test-submit'))
 
-        const pwError = await waitForElement()
+//         const pwError = await waitForElement()
 
-    })
-})
+//     })
+// })
 
-describe("Checks that login process return token is set to local storage", ()=>{
-    it("Enteres a username and password, clicks submit, & asserts local storage matches mocked return value",()=>{
-        const { getByText, getByTestId} = renderWithRedux(<Login/>);
-        axiosMock.post.mockResolvedValueOnce({
-            data: { token: 'test token' },
-        })
-
-        fireEvent.change(getByTestId('username'),{target:{value:'dbtestusername'}});
-        fireEvent.change(getByTestId('password'),{target:{value:'testpassword'}});
-
-        
+// describe("login start triggers animation", ()=>{
+  
+//     const {getByText, getByTestId} = renderWithRedux(<Login/>);
+       
+    
+//     it("Enters a username and password, clicks submit, & asserts login animation class is changed", ()=>{
         
 
-        fireEvent.click(getByTestId('test-submit'))
-        expect(window.localStorage.getItem('token')).toBe('test token');
+//         fireEvent.change(getByTestId('user-name'),{target:{value:'dbtestusername'}});
+//         fireEvent.change(getByTestId('password'),{target:{value:'testpassword'}});
 
-    })
-})
+        
+        
 
+       
+//         fireEvent.click(getByTestId('test-submit'));
+//         expect(getByTestId('login-animation').className).toBe('animation-div pulse');
+       
+       
 
+//     })
+    
+// })
+
+//final test will not run if other two tests are uncommented, strange
 //fake login next with mocked axios and fake local storage
+//remember the philosophy of testing library react is to test it as the user expects to see the component
+
+//take aways
+//going forward with this testing philosophy
+//not going to test actions for redux store connected components, just UI changes
+//going to test store (thunk) dispatches separately

@@ -50,6 +50,7 @@ class Login extends Component  {
 
     login = e => {
         e.preventDefault();
+        
         this.props.initiateLogin(this.state.credentials)
 
         .then(() => this.props.history.push('/protected'))
@@ -66,7 +67,7 @@ class Login extends Component  {
                 
 
                 
-                    <div className={`animation-div${this.state.submitpw ?' pulse':''}`}></div>
+                    <div data-testid = 'login-animation' className={`animation-div${this.state.submitpw ?' pulse':''}`}></div>
                     <h1 className='welcome-title'>flocks</h1>
                    
                     <div className='flock-output-ani'>
@@ -110,7 +111,7 @@ class Login extends Component  {
                     <div  data-testid='username-ui' onClick={(e) => {e.stopPropagation();this.loginAnimate()}} className={`inputdiv ${this.state.clicked ?'transform-inputdiv':''}`}>
                         <form  className='pw-form' >
                             
-                            <input data-testid= 'username' name='username' value={this.state.credentials.username} onChange={this.handleChanges}
+                            <input data-testid= 'user-name' name='username' value={this.state.credentials.username} onChange={this.handleChanges}
                             className='credential-input'>
                     
                             </input>
@@ -164,6 +165,9 @@ const mapStateToProps = state => {
      }
 
 }
+
+//add proptypes
+
 
 
 //Make sure you do not have two copies of react or react-dom between your friends folder directory and outside of your friends folder directory
