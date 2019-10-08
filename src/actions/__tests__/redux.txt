@@ -1,0 +1,124 @@
+1) Problems
+ --> asynchronicity
+ --Mutability
+
+2) Solutions:
+ --> no arbitrary code mutations
+ --> actions are required to make any changes to the state of your app
+
+3) How are state and actions tied together?
+ --> reducers
+
+4) What is hydration?
+--> Hydration refers to the process of filling an object with data. 
+
+5) How are state changes made?
+--> Because all changes are centralized and happen one by one in a strict order, 
+    there are no subtle race conditions to watch out for. 
+
+6)store
+--> createStore(reducer,[preloaded state if any],enhancers)
+-->When a store is created, Redux dispatches a dummy action to your reducer to populate the store with the initial state
+
+7) store.dispatch
+ --> The store's reducing function will be called with the current getState() result and the given action synchronously. 
+ --> Its return value will be considered the next state
+
+
+8) Middleware
+ -->Middleware wraps the base dispatch function.
+ --> A middleware is a higher-order function that composes a dispatch function to return a new dispatch function
+type MiddlewareAPI = { dispatch: Dispatch, getState: () => State }
+type Middleware = (api: MiddlewareAPI) => (next: Dispatch) => Dispatch
+
+ --> Middleware may transform, delay, ignore, or otherwise interpret actions or async actions before passing them to the next middleware
+ --> Redux middleware API
+
+9) What is a thunk?
+--> Generally though, thunks are a functional programming technique used to delay computation.
+https://medium.com/fullstack-academy/thunks-in-redux-the-basics-85e538a3fe60
+
+
+-->******In React / Redux, thunks enable us to avoid directly causing side effects in our actions
+action creators, or components
+
+--> essentially we would rewrite the below as a function that returns a function (the delay here)
+--> this is our thunk now, the execution has been delayed, but what do we do with the thunk?
+--> Middleware comes in to process our thunks
+
+// in an action creator module:
+const asyncLogin = () =>
+  axios.get('/api/auth/me')
+  .then(res => res.data)
+  .then(user => {
+    // how do we use this user object?
+  })
+
+// somewhere in component:
+store.dispatch(asyncLogin()) // nope; `asyncLogin()` is a promise, not action
+
+10) Now our action creators can return objects or functions.
+--> action creators can remain purish
+--> if a function is returned, dependencies (store methods) are injected, when the async resolves, callbacks can dispatch a normal action to store
+--> redux thunk has access to the store's dispatch and getState methods (inversion of control)
+--> remember action creators are only supposed to return plain javascript objectss
+
+actionOrThunk =>
+  typeof actionOrThunk === 'function'
+    ? actionOrThunk(dispatch, getState)
+    : passAlong(actionOrThunk);
+
+11) 
+-->  The best feature of middleware is that it's composable in a chain. Redux middleware is conceptually similar to Express middleware
+--> third-party extension point between dispatching an action, and the moment it reaches the reducer
+
+
+
+12) Really redux middleware function sig looks like this:
+
+store => next => action =>{function body to call next(action) or call it conditionally}
+--> here, next() is actually the partially applied 'next middleware' in line between the 
+action creator and reducer.  This is how you are able to utilize closures so each middleware can call the next in line
+
+-->next =  middleware(store)(previous 'dispatch' value) --> ready to receive action (next(action))
+--> Back to thunk --> it is at this point that redux thunk evaluates what is returned from 
+    out action creator
+--> If it is a thunk (a function) redux will inject the store's dispatch method (getState as well)
+
+
+export const initiateLogin = creds => dispatch =>{
+
+    dispatch({type:LOGIN_START});
+    
+    return axios
+    // .post('http://localhost:5000/api/login',creds)
+    .post('https://build-week.herokuapp.com/login',creds)
+    .then(
+        resp => {
+            console.log("Response",resp.data);
+            localStorage.setItem('token',resp.data.payload)
+            dispatch({type:LOGIN_SUCCESS,payload:resp.data.payload})}
+        
+    )
+    .catch(
+        err => console.log('failuer',err)
+    )
+}
+
+So in the case of the above code:
+1) This is an action creator, however it returns a thunk ( a function) (e.g. dispatch =>{})
+2) thunk middleware is already partially applied with thunk(store)(next = nextMiddleware(store)(nextMidd))
+3) thunk sees that this is a function and injects the actual store's dispatch method
+4) our thunk then uses this to dispatch login LOGIN_START
+5) login start goes through our middleware again, accept this time is passed along by thunkMiddleware using next(loginstart) because it is an object
+6) when this clears the stack, our axios call goes out into API land and waits to be resolved
+7) Once resolved the ququed callback is placed in the Job queue and marshalled back into the execution stack by the event loop
+8) This passes the standard action object (login success) to our middleware again where it is passed by thunk down the LOGIN_SUCCESS
+9) eventuallly the last reducer will call the store's dispatch method, placing reducer(store.getState(),action) on to the execution stack.
+
+
+
+
+
+
+***NEXT CONTEXT PROVIDER API
