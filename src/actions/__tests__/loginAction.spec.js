@@ -7,7 +7,8 @@ import {LOGIN_START, LOGIN_SUCCESS} from '../../actions/login';
 
 
 describe('Tests login redux actions',()=>{
-
+    //login action creator returns a thunk
+    //middleware config necessary to handle non typical action object (thunk)
     
     const middlewares = [thunk];
     const mockStore = configureMockStore(middlewares);

@@ -115,6 +115,11 @@ So in the case of the above code:
 7) Once resolved the ququed callback is placed in the Job queue and marshalled back into the execution stack by the event loop
 8) This passes the standard action object (login success) to our middleware again where it is passed by thunk down the LOGIN_SUCCESS
 9) eventuallly the last reducer will call the store's dispatch method, placing reducer(store.getState(),action) on to the execution stack.
+10) The <Provider /> makes the Redux store available to any nested components that have been wrapped in the connect() function.
+
+
+
+**) Look at connect function next
 
 
 
