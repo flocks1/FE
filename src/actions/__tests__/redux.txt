@@ -117,7 +117,7 @@ So in the case of the above code:
 9) eventuallly the last reducer will call the store's dispatch method, placing reducer(store.getState(),action) on to the execution stack.
 10) The <Provider /> makes the Redux store available to any nested components that have been wrapped in the connect() function.
 
-
+https://medium.com/fullstack-academy/thunks-in-redux-the-basics-85e538a3fe60
 
 **) Look at connect function next
 
