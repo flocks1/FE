@@ -16,7 +16,9 @@ const loginR = (state=initialState,action) => {
         case LOGIN_START:
         return{
             ...state,
-            loginStart:true
+            loginStart:true,
+            loginSuccess:false,
+            loginFailure:false,
         }
 
         case LOGIN_SUCCESS:
