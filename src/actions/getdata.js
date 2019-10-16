@@ -10,7 +10,7 @@ export const FETCH_DATA_FAILURE = 'FETCH_DATA_FAILURE';
 export const getData = () => dispatch => {
   
   dispatch({ type: FETCH_DATA_START });
-  axios
+  return axios
     .get('https://build-week.herokuapp.com/trends')
     .then(res => {
       dispatch({ type: FETCH_DATA_SUCCESS, payload: res.data });

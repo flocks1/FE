@@ -24,6 +24,7 @@ describe('Tests login redux actions',()=>{
 
 
         //jest mocking npm module axios
+              //mock async get resolution once
         axiosMock.post.mockResolvedValueOnce({
             data: { payload: 'test-complete' },
             })
