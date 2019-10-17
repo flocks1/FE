@@ -2,10 +2,90 @@ import React, { Component } from 'react';
 import styled, { css } from 'styled-components';
 import {getData} from '../actions/index';
 import { connect } from 'react-redux';
-import {StyledNavigation} from './Nav';
+
 import {CustomSearch} from './CustomSearch';
 import {sentimentSend} from '../actions';
 
+
+
+class ItemList extends Component {
+    constructor(props){
+        super(props);
+        this.state={
+            selectedTrend:'',
+            trendSelected:false,
+            data:[]
+        
+        }
+    }
+
+
+    setInputWithTrend = (value) =>{
+        this.trendSelected && this.setState({selectedTrend:value});
+    }
+    componentDidMount(){
+        this.props.getData()
+        console.log('Item List Mount')
+        this.setState({data:this.props.responseItems})
+    }
+
+    
+
+    render(){
+        return( 
+                <StyledDataView id={!this.props.toggleStatus ? 'hidden':''}>
+                    
+                    
+                    
+                    <div className='column-container'>
+                         
+                        
+                        
+                        <div className='tweet-factory-column trending'>
+                        <div className='column-title'>
+                                <span className='trend-icon'><i className="fas fa-bolt"></i></span><h3 className='tab-title'>Trending</h3>
+                            </div>
+                            <div className='tweet-factory-content'>
+                        {this.props.fetchingData && (<div className='loader-icon'><i className="fas fa-crow"></i></div>)}
+                            {!this.props.fetchingData && this.props.responseItems.length > 0 && (
+                                <div className='global-item-container'>
+                                    
+                                    {this.props.responseItems.map(item => {
+                                        
+                                        return(
+                                            <div data-testid="tweet-trend-container" className='item-container'>
+                                                <h3>{item.name}</h3>
+                                                <span className='tweet-volume'>
+                                                    <i class="fas fa-users"></i><h4>{item.tweet_volume}</h4>
+                                                </span>
+                                                
+                                                
+                                            </div>
+                                        )
+                                    })}
+                            
+                            
+                                </div>)}
+                            </div>
+                        
+                        
+                        </div>
+                        <CustomSearch sentimentSend={this.props.sentimentSend} selectedTrend={this.state.selectedTrend} trendSelected={this.state.trendSelected}/>
+                    </div>
+                    
+                </StyledDataView>
+
+
+
+            )
+    }
+
+}
+
+const mapStateToProps = state =>({
+    responseItems:state.getData.itemData,
+    fetchingData:state.getData.fetchingData
+});
 const sizes = {
     desktop: 992,
     tablet: 768,
@@ -320,83 +400,4 @@ const StyledDataView = styled.div`
    
 
 `
-
-class ItemList extends Component {
-    constructor(props){
-        super(props);
-        this.state={
-            selectedTrend:'',
-            trendSelected:false,
-            data:[]
-        
-        }
-    }
-
-
-    setInputWithTrend = (value) =>{
-        this.trendSelected && this.setState({selectedTrend:value});
-    }
-    componentDidMount(){
-        this.props.getData()
-        console.log('Item List Mount')
-        this.setState({data:this.props.responseItems})
-    }
-
-    
-
-    render(){
-        return( 
-                <StyledDataView id={!this.props.toggleStatus ? 'hidden':''}>
-                    
-                    
-                    
-                    <div className='column-container'>
-                         
-                        
-                        
-                        <div className='tweet-factory-column trending'>
-                        <div className='column-title'>
-                                <span className='trend-icon'><i class="fas fa-bolt"></i></span><h3 className='tab-title'>Trending</h3>
-                            </div>
-                            <div className='tweet-factory-content'>
-                        {this.props.fetchingData && (<div className='loader-icon'><i class="fas fa-crow"></i></div>)}
-                            {!this.props.fetchingData && this.props.responseItems.length > 0 && (
-                                <div className='global-item-container'>
-                                    
-                                    {this.props.responseItems.map(item => {
-                                        return(
-                                            <div className='item-container'>
-                                                <h3>{item.name}</h3>
-                                                <span className='tweet-volume'>
-                                                    <i class="fas fa-users"></i><h4>{item.tweet_volume}</h4>
-                                                </span>
-                                                
-                                                
-                                            </div>
-                                        )
-                                    })}
-                            
-                            
-                                </div>)}
-                            </div>
-                        
-                        
-                        </div>
-                        <CustomSearch sentimentSend={this.props.sentimentSend} selectedTrend={this.state.selectedTrend} trendSelected={this.state.trendSelected}/>
-                    </div>
-                    
-                </StyledDataView>
-
-
-
-            )
-    }
-
-}
-
-const mapStateToProps = state =>({
-    responseItems:state.getData.itemData,
-    fetchingData:state.getData.fetchingData
-});
-
 export default connect(mapStateToProps,{getData,sentimentSend})(ItemList);

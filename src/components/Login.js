@@ -160,8 +160,8 @@ class Login extends Component  {
 const mapStateToProps = state => {
     console.log('mapping state to props')
    return{
-       loginStart:state.loginStart,
-        error:state.error
+       loginStart:state.loginR.loginStart,
+        error:state.loginR.error
      }
 
 }

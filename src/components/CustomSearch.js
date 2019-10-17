@@ -99,14 +99,14 @@ export class CustomSearch extends Component {
                             onChange={this.handleChanges}></input>
 
                         <button className='demo-btn' onClick={()=>{this.sentimentSend(this.state.input)}}>
-                            <span>Submit Search</span><i class="fas fa-arrow-circle-right"></i>
+                            <span>Submit Search</span><i className="fas fa-arrow-circle-right"></i>
 
                         </button>
 
                     </div>
                 </div>
                 <div className='column-title sample'>
-                    <span className='trend-icon'><i class="fas fa-satellite-dish"></i></span><h3 className='tab-title'>Query Sentiment</h3><i onClick={this.toggleSearch} class="fas fa-search"></i>
+                    <span className='trend-icon'><i className="fas fa-satellite-dish"></i></span><h3 className='tab-title'>Query Sentiment</h3><i onClick={this.toggleSearch} className="fas fa-search"></i>
                 </div>
                 <div className='tweet-factory-content demo'>
                     <div className='walk-through-content' id='analyzed-tweets'>
