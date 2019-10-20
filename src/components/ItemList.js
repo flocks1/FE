@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 
 import {CustomSearch} from './CustomSearch';
 import {sentimentSend} from '../actions';
+import PropTypes from 'prop-types';
 
 
 
@@ -80,6 +81,13 @@ class ItemList extends Component {
             )
     }
 
+}
+
+ItemList.propTypes = {
+    sentimentSend:PropTypes.func,
+    responseItems:PropTypes.array,
+    fetchingData:PropTypes.bool,
+    toggleStatus:PropTypes.bool
 }
 
 const mapStateToProps = state =>({

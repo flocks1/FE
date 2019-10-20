@@ -1,6 +1,57 @@
 import React, { Component } from 'react';
 import styled, { css } from 'styled-components';
 
+
+import PropTypes from 'prop-types';
+// ${media.desktop`background:green;`}
+
+export const StyledNavigation = (props) =>{
+    {console.log(props)}
+    return(
+        <div className='outer-most-global-container'>
+            
+                   
+            <div className='relative-pos-barrier'>
+                <StyledNav>
+                    <div className='global-nav-and-dash'>
+                        <div className='logo-top-left'>
+                            <div className='tri-container'>
+                                <div id="triangle-logo"></div>
+                                <h1>f</h1>
+                            </div>
+
+                            
+                        </div>
+                        <div className='skinny-nav'>
+                            {props.toggleStatus ? <i class="fas fa-angle-double-left" onClick={()=>props.toggleExpand()}></i>:<i class="fas fa-angle-double-right" onClick={()=>props.toggleExpand()}></i>}
+                            <i class="fas fa-search"></i>
+                            <i className="fas fa-user-alt"></i>
+                            <i class="fas fa-bolt"></i>
+                            
+                    
+                        </div>
+                    </div>
+                    
+                
+                    
+
+                </StyledNav>
+            </div>
+            
+                
+            
+        </div>
+
+
+
+    )
+}
+
+StyledNavigation.propTypes = {
+    toggleStatus: PropTypes.bool,
+    toggleExpand:PropTypes.func
+}
+
 const sizes = {
     desktop: 992,
     tablet: 768,
@@ -135,47 +186,3 @@ const StyledNav = styled.div`
 
 
 `
-
-// ${media.desktop`background:green;`}
-
-export const StyledNavigation = (props) =>{
-    {console.log(props)}
-    return(
-        <div className='outer-most-global-container'>
-            
-                   
-            <div className='relative-pos-barrier'>
-                <StyledNav>
-                    <div className='global-nav-and-dash'>
-                        <div className='logo-top-left'>
-                            <div className='tri-container'>
-                                <div id="triangle-logo"></div>
-                                <h1>f</h1>
-                            </div>
-
-                            
-                        </div>
-                        <div className='skinny-nav'>
-                            {props.toggleStatus ? <i class="fas fa-angle-double-left" onClick={()=>props.toggleExpand()}></i>:<i class="fas fa-angle-double-right" onClick={()=>props.toggleExpand()}></i>}
-                            <i class="fas fa-search"></i>
-                            <i className="fas fa-user-alt"></i>
-                            <i class="fas fa-bolt"></i>
-                            
-                    
-                        </div>
-                    </div>
-                    
-                
-                    
-
-                </StyledNav>
-            </div>
-            
-                
-            
-        </div>
-
-
-
-    )
-}
