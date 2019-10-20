@@ -1,23 +1,24 @@
 import React from 'react';
 import{cleanup,render, fireEvent, waitForElement} from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
-import { createStore } from 'redux';
+import {createStore,applyMiddleware} from 'redux';
+import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import axiosMock from "axios";
 
 
-import loginR from '../../reducers/loginreducer';
+import rootReducer from '../../reducers/';
 import Login from '../Login';
 
 
 
-function routerWrapper(){
+// function routerWrapper(){
 
-}
+// }
 function renderWithRedux(
     ui,
-    { initialState,store = createStore(loginR,initialState) } = {})
+    { store = createStore(rootReducer,applyMiddleware(thunk)) } = {})
    {
        
     return {

@@ -7,7 +7,7 @@ import {FETCH_DATA_START,
 
 
 
-const initialState = {
+export const initialState = {
     
     fetchingData: false,
     itemData: [],
@@ -15,7 +15,7 @@ const initialState = {
     
 };
 
-const getData = (state=initialState,action) =>{
+export const getData = (state=initialState,action) =>{
     switch(action.type){
         case FETCH_DATA_START:
         return{
@@ -42,9 +42,8 @@ const getData = (state=initialState,action) =>{
 
         default:
         
-            return initialState;
+            return state;
     
     }
 }
 
-export default getData;

@@ -1,0 +1,4 @@
+1) JSX does get converted to JS via the REACT.reate element()
+2) props default to true
+3) In JSX expressions that contain both an opening tag and a closing tag, the content between those tags is passed as a special prop: props.children. 
+4) A component with a render prop takes a function that returns a React element and calls it instead of implementing its own render logic.
